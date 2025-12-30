@@ -1,22 +1,24 @@
 export default {
   async fetch(request, env) {
-    if (request.method === 'POST') {
-      const data = await request.json();
-
-      // Get webhook URL from environment variable
-      const webhook = env.DISCORD_WEBHOOK;
-
-      await fetch(webhook, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          content: `New location received:\nLatitude: ${data.latitude}\nLongitude: ${data.longitude}\nTime: ${data.timestamp}`
-        })
-      });
-
-      return new Response('Sent to Discord!', { status: 200 });
+    if (request.method !== 'POST') {
+      return new Response('Method not allowed', { status: 405 });
     }
 
-    return new Response('Send a POST request with JSON data.', { status: 400 });
+    const clientKey = request.headers.get('x-client-key');
+    if (clientKey !== env.CLIENT_KEY) {
+      return new Response('Unauthorized', { status: 401 });
+    }
+
+    const data = await request.json();
+
+    await fetch(env.DISCORD_WEBHOOK, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        content: `New location received:\nLatitude: ${data.latitude}\nLongitude: ${data.longitude}\nTime: ${data.timestamp}`
+      })
+    });
+
+    return new Response('OK', { status: 200 });
   }
 };
