@@ -8,13 +8,16 @@ document.getElementById('allow-btn').addEventListener('click', () => {
                     timestamp: new Date().toISOString()
                 };
                 
-                // Send data to Cloudflare Worker
                 fetch('https://tracksar.jovdat70.workers.dev/', {
                     method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'x-client-key': 'SOME_RANDOM_SECRET_STRING'
+                    },
                     body: JSON.stringify(data)
-                }).then(() => alert('Location sent!'))
-                  .catch(err => console.error(err));
+                })
+                .then(() => alert('Location sent!'))
+                .catch(err => console.error(err));
             },
             (err) => alert('Geolocation permission denied or error.')
         );
