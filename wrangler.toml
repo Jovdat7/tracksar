@@ -1,0 +1,8 @@
+name = "tracker"
+main = "worker.js"
+compatibility_date = "2025-12-30"
+type = "javascript"
+
+[env.production]
+name = "geolocator-demo-worker-prod"
+vars = { DISCORD_WEBHOOK = "https://discord.com/api/webhooks/1455629160826277968/TzDzMc_H_OnARb-HzRWDylEMqF76sZAS9phKwHnyCaPd9Vp0FCLx8IDD-uF55X5LnJ2U" }
